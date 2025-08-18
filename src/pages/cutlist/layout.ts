@@ -1,0 +1,31 @@
+import { Part, Rect } from "./core";
+
+export function layoutParts(parts: Part[], totalWidth: number, totalHeight: number): Rect[] {
+    const positioned: Rect[] = [];
+    let x = 0, y = 0, rowHeight = 0;
+
+    for (const part of parts) {
+        for (let i = 0; i < part.number; i++) {
+            if (x + part.width > totalWidth) {
+                x = 0;
+                y += rowHeight;
+                rowHeight = 0;
+            }
+            if (y + part.height > totalHeight) {
+                break;
+            }
+            positioned.push({ x, y, width: part.width, height: part.height });
+            x += part.width;
+            rowHeight = Math.max(rowHeight, part.height);
+        }
+    }
+    return positioned;
+}
+
+export function flitSizes(parts: Part[]): Part[] {
+    return parts.map(part => ({
+        width: part.height,
+        height: part.width,
+        number: part.number
+    }));
+}

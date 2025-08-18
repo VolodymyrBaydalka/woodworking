@@ -1,7 +1,7 @@
 import React from "react";
 import { CabinetEditor } from "./pages/cabinet/cabinet";
 import './styles/styles.scss';
-import { CutListEditor } from "./pages/cutlist/cutlist";
+import { CutListEditor } from "./pages/cutlist/Cutlist";
 import {
 	BrowserRouter as Router,
 	Routes,

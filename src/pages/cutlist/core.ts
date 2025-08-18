@@ -11,12 +11,17 @@ export interface SizeBase {
     height: number;
 }
 
+export interface Rect extends SizeBase {
+    x: number;
+    y: number;
+}
+
 export interface Panel extends SizeBase  {
     
 }
 
 export interface Part extends SizeBase {
-
+    number: number;
 }
 
 export interface PartGroup extends SizeBase {
