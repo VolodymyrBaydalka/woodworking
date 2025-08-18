@@ -3,7 +3,7 @@ import { CabinetEditor } from "./pages/cabinet/cabinet";
 import './styles/styles.scss';
 import { CutListEditor } from "./pages/cutlist/cutlist";
 import {
-	MemoryRouter as Router,
+	BrowserRouter as Router,
 	Routes,
 	Route,
 	Link
