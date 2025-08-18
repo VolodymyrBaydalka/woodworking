@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import { Part } from "./core";
+import { Button } from "../../common";
+import { useLocation } from "react-router";
 
 interface PartLine extends Part {
     number: number;
@@ -17,8 +19,8 @@ const initialPart = {
 }
 
 export function CutListEditor(props: any) {
-
-    const [parts, setParts] = useState<PartLine[]>(props.parts || []);
+    const location = useLocation();
+    const [parts, setParts] = useState<PartLine[]>(location.state?.parts || []);
     const [newPart, setNewPart] = useState<PartLine>(initialPart);
 
     function handleInput(e: ChangeEvent<HTMLInputElement>) {
@@ -54,14 +56,14 @@ export function CutListEditor(props: any) {
                         <td><input name="number" value={newPart.number} onChange={handleInput} /></td>
                         <td><input name="width" value={newPart.width} onChange={handleInput} /></td>
                         <td><input name="height" value={newPart.height} onChange={handleInput} /></td>
-                        <td><button type="submit">Add</button></td>
+                        <td><Button type="submit">Add</Button></td>
                     </tr>
                     {parts.map((p, i) => {
                         return (<tr key={i}>
                             <td>{p.number}</td>
                             <td>{p.width}</td>
                             <td>{p.height}</td>
-                            <td><button type="button" onClick={() => removePart(p)}>remove</button></td>
+                            <td><Button onClick={() => removePart(p)}>remove</Button></td>
                         </tr>);
                     })}
                 </tbody>

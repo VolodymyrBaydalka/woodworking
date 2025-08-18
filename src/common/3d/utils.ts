@@ -1,4 +1,4 @@
-import THREE, { BoxGeometry, MeshBasicMaterial, EdgesGeometry, LineSegments, Group, Mesh, Object3D, LineBasicMaterial } from "three";
+import { BoxGeometry, MeshBasicMaterial, EdgesGeometry, LineSegments, Group, Mesh, Object3D, LineBasicMaterial } from "three";
 
 export type BoxType = "TypeA" | "TypeB";
 

@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
-import { Scene, WebGLRenderer, PerspectiveCamera, Mesh, Group, LineSegments, EdgesGeometry, MeshBasicMaterial, BoxGeometry, Object3D } from "three";
-import { SizeBase } from "../../cutlist/core";
-
-declare var THREE : any;
+import { Scene, WebGLRenderer, PerspectiveCamera } from "three";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 export interface Viewport3DProps {
     width: number;
@@ -26,7 +24,7 @@ export function Viewport3D(props: Viewport3DProps) {
         var renderer = new WebGLRenderer();
         renderer.setSize(width, height);
         container.appendChild(renderer.domElement);
-        var controls = new THREE.OrbitControls( camera, renderer.domElement );
+        var controls = new OrbitControls( camera, renderer.domElement );
 
         camera.position.set( 0, 20, 1000 );
         
@@ -49,11 +47,7 @@ export function Viewport3D(props: Viewport3DProps) {
 
     useEffect(() => {
         var scene = sceneRef.current as Scene;
-        
-        scene.children = [];
-
-        if(props.model)
-            scene.add(props.model);
+        scene.children = props.model ? [props.model] : [];
     }, [props.model]);
 
     return <div ref={viewEl} style={{ width: props.width, height: props.height }}></div>

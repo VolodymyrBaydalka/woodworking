@@ -1,3 +1,40 @@
+:root {
+    --primary-color: #007bff;   
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    flex-flow: row nowrap;
+    background: var(--primary-color);
+
+    a {
+        padding: 0.5rem 1rem;
+        color: white;
+    }
+}
+
+main {
+    margin: 0.5rem;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+
+    &:hover {
+        background: color-mix(in srgb, var(--primary-color) 100%, black 20%);
+    }
+}
+
 .input-layout {
     label {
         display: inline-block;
@@ -6,7 +43,7 @@
 }
 
 .sides-editor {
-    $thickness: 10;
+    $thickness: 10px;
 
     display: block;
     position: relative;
