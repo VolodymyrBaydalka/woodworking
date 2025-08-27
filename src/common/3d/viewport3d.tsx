@@ -6,6 +6,7 @@ export interface Viewport3DProps {
     width: number;
     height: number;
     model: any;
+    className?: string;
 }
 
 export function Viewport3D(props: Viewport3DProps) {
@@ -17,8 +18,8 @@ export function Viewport3D(props: Viewport3DProps) {
         let scene = sceneRef.current = new Scene();
 
         var container = viewEl.current as HTMLElement;
-        var width = props.width;
-        var height = props.height;
+        var width = container.offsetWidth;
+        var height = container.offsetHeight;
         var camera = new PerspectiveCamera(75, width / height, 0.1, 10000);
 
         var renderer = new WebGLRenderer();
@@ -50,5 +51,5 @@ export function Viewport3D(props: Viewport3DProps) {
         scene.children = props.model ? [props.model] : [];
     }, [props.model]);
 
-    return <div ref={viewEl} style={{ width: props.width, height: props.height }}></div>
+    return <div ref={viewEl} className={props.className} style={{ width: props.width, height: props.height }}></div>
 }

@@ -4,7 +4,7 @@ export function layoutParts(parts: Part[], totalWidth: number, totalHeight: numb
     const positioned: Rect[] = [];
     let x = 0, y = 0, rowHeight = 0;
 
-    for (const part of parts) {
+    for (const part of parts.sort(compareParts)) {
         for (let i = 0; i < part.number; i++) {
             if (x + part.width > totalWidth) {
                 x = 0;
@@ -22,10 +22,19 @@ export function layoutParts(parts: Part[], totalWidth: number, totalHeight: numb
     return positioned;
 }
 
-export function flitSizes(parts: Part[]): Part[] {
+export function flipSizes(parts: Part[]): Part[] {
     return parts.map(part => ({
         width: part.height,
         height: part.width,
         number: part.number
     }));
+}
+
+function compareParts(a: Part, b: Part): number {
+    const areaA = a.width * a.height;
+    const areaB = b.width * b.height;
+
+    if (areaA !== areaB) return areaB - areaA;
+    if (a.width !== b.width) return b.width - a.width; 
+    return b.height - a.height;
 }

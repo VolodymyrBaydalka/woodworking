@@ -14,11 +14,13 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@types/three": "^0.179.0",
-    "parcel": "latest"
+    "parcel": "latest",
+    "parcel-namer-hashless": "^1.0.7"
   },
   "scripts": {
+    "prebuild": "del /s /q dist",
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build --no-content-hash --public-url ./"
   },
   "repository": {
     "type": "git",

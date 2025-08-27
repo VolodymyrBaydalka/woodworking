@@ -1,12 +1,13 @@
 import React from "react";
-import { CabinetEditor } from "./pages/cabinet/cabinet";
-import './styles/styles.scss';
+import { CabinetEditor } from "./pages/cabinet/CabinetEditor";
 import { CutListEditor } from "./pages/cutlist/Cutlist";
+import './styles/index.scss';
 import {
 	BrowserRouter as Router,
 	Routes,
 	Route,
-	Link
+	Link,
+	NavLink
 } from "react-router";
 
 
@@ -14,10 +15,10 @@ export function App() {
 	return (
 		<div className="app">
 			<Router>
-				<nav>
-					<Link to="/">Home</Link>
-					<Link to="/cabinet">Cabinet</Link>
-					<Link to="/cutlist">Cutlist</Link>
+				<nav className="ww-nabbar">
+					<NavLink className={x => x.isActive ? '--active' : ''} to="/">Home</NavLink>
+					<NavLink className={x => x.isActive ? '--active' : ''} to="/cabinet">Cabinet</NavLink >
+					<NavLink className={x => x.isActive ? '--active' : ''} to="/cutlist">Cutlist</NavLink>
 				</nav>
 				<main>
 					<Routes>

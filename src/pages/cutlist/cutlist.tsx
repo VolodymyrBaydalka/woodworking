@@ -1,8 +1,8 @@
-import React, { useState, ChangeEvent, FormEvent, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { Part } from "./core";
-import { Button, InputLayout } from "../../common";
+import { Button, InputLayout,  useInputChange, useLocalStorage } from "../../common";
 import { useLocation } from "react-router";
-import { flitSizes, layoutParts } from "./layout";
+import { flipSizes, layoutParts } from "./layout";
 import "./Cutlist.scss";
 
 interface PartLine extends Part {
@@ -22,17 +22,12 @@ const initialPart = {
 
 export function CutListEditor(props: any) {
     const location = useLocation();
-    const [sheetSize, setSheetSize] = useState(() => ({ width: 2750, height: 1830 }));
+    const [sheetSize, setSheetSize, reset] = useLocalStorage("sheetSize", { width: 2750, height: 1830 });
+    const onSheetSizeInputChange = useInputChange(setSheetSize);
     const [parts, setParts] = useState<PartLine[]>(location.state?.parts || []);
     const [newPart, setNewPart] = useState<PartLine>(initialPart);
+    const onNewPartInputChange = useInputChange(setNewPart);
     const canvasRef = useRef<HTMLCanvasElement>(null);
-
-    function handleInput(e: ChangeEvent<HTMLInputElement>) {
-        var input = e.target;
-        var newValue = {... newPart} as any;
-        newValue[input.name] = input.value;
-        setNewPart(newValue);
-    }
 
     function addPart() {
         setParts([newPart, ...parts]);
@@ -44,7 +39,7 @@ export function CutListEditor(props: any) {
     }
 
     function flip() {
-        setParts(flitSizes(parts));
+        setParts(flipSizes(parts));
     }
 
     function build() {
@@ -76,10 +71,18 @@ export function CutListEditor(props: any) {
     return (
         <div className="cutlist-editor">
             <form className="parts-form">
-                <InputLayout label="Sheet Size">
-                    <input name="sheetWidth" type="number" value={sheetSize.width} onChange={e => setSheetSize(p => ({ ...p, width: e.target.valueAsNumber }))} />
-                    <input name="sheetHeight" type="number" value={sheetSize.height} onChange={e => setSheetSize(p => ({ ...p, height: e.target.valueAsNumber }))} />
-                </InputLayout>
+                <fieldset className="vstack gap-1">
+                    <legend>Sheet Size</legend>
+                    <InputLayout label="Width">
+                        <input name="width" type="number" value={sheetSize.width}  onChange={onSheetSizeInputChange} />
+                    </InputLayout>
+                    <InputLayout label="Height">
+                        <input name="height" type="number" value={sheetSize.height} onChange={onSheetSizeInputChange} />
+                    </InputLayout>
+                    <div>
+                        <Button onClick={() => reset()}>Reset</Button>
+                    </div>
+                </fieldset>
                 <table>
                     <thead>
                         <tr>
@@ -91,24 +94,24 @@ export function CutListEditor(props: any) {
                     </thead>
                     <tbody>
                         <tr>
-                            <td><input name="number" value={newPart.number} onChange={handleInput} /></td>
-                            <td><input name="width" value={newPart.width} onChange={handleInput} /></td>
-                            <td><input name="height" value={newPart.height} onChange={handleInput} /></td>
-                            <td><Button onClick={() => addPart()}>Add</Button></td>
+                            <td><input name="number" value={newPart.number} onChange={onNewPartInputChange} /></td>
+                            <td><input name="width" value={newPart.width} onChange={onNewPartInputChange} /></td>
+                            <td><input name="height" value={newPart.height} onChange={onNewPartInputChange} /></td>
+                            <td><Button className="w-100" onClick={() => addPart()}>Add</Button></td>
                         </tr>
                         {parts.map((p, i) => {
                             return (<tr key={i}>
                                 <td>{p.number}</td>
                                 <td>{p.width}</td>
                                 <td>{p.height}</td>
-                                <td><Button onClick={() => removePart(p)}>remove</Button></td>
+                                <td><Button className="w-100" onClick={() => removePart(p)}>Remove</Button></td>
                             </tr>);
                         })}
                     </tbody>
                 </table>
             </form> 
             <div className="canvas-container">
-                <div>
+                <div className="hstack gap-1">
                     <Button onClick={() => build()}>Build</Button>
                     <Button onClick={() => flip()}>Flip</Button>
                 </div>
